@@ -42,7 +42,7 @@ export default function UserTable({ users, isAdmin }: UserTableProps) {
                                         <select
                                             name="newRole"
                                             defaultValue={user.role}
-                                            className="p-1 rounded-md w-1/2"
+                                            className="bg-white border hover:bg-slate-50 border-black p-1 rounded-md w-1/2"
                                         >
                                             <option value={Role.USER}>
                                                 User
