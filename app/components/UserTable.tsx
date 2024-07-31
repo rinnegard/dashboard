@@ -1,4 +1,5 @@
 import { Role } from "@prisma/client";
+import { updateUserRoleAction } from "../actions/updateUserRole";
 
 type User = {
     id: string;
@@ -27,14 +28,38 @@ export default function UserTable({ users, isAdmin }: UserTableProps) {
                 {users.map((user) => {
                     return (
                         <tr key={user.id}>
-                            <td>{user.name}</td>
-                            <td>{user.email}</td>
-                            <td>{user.role}</td>
-                            <td>
-                                <button className="bg-blue-600 text-white">
-                                    test
-                                </button>
-                            </td>
+                            <td className="border p2">{user.name}</td>
+                            <td className="border p2">{user.email}</td>
+                            <td className="border p2">{user.role}</td>
+                            {isAdmin && (
+                                <td className="border p2">
+                                    <form action={updateUserRoleAction}>
+                                        <input
+                                            type="hidden"
+                                            name="userId"
+                                            value={user.id}
+                                        />
+                                        <select
+                                            name="newRole"
+                                            defaultValue={user.role}
+                                            className="p-1 rounded-md w-1/2"
+                                        >
+                                            <option value={Role.USER}>
+                                                User
+                                            </option>
+                                            <option value={Role.ADMIN}>
+                                                Admin
+                                            </option>
+                                        </select>
+                                        <button
+                                            className="bg-blue-600 w-1/2 text-white p-1 hover:bg-blue-800 active:bg-blue-900 rounded-md"
+                                            type="submit"
+                                        >
+                                            Submit
+                                        </button>
+                                    </form>
+                                </td>
+                            )}
                         </tr>
                     );
                 })}
