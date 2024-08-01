@@ -1,5 +1,22 @@
 import { Role } from "@prisma/client";
 import { updateUserRoleAction } from "../actions/updateUserRole";
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 type User = {
     id: string;
@@ -15,55 +32,57 @@ interface UserTableProps {
 
 export default function UserTable({ users, isAdmin }: UserTableProps) {
     return (
-        <table className="w-full border-collapse my-4">
-            <thead>
-                <tr>
-                    <th className="border p2">Name</th>
-                    <th className="border p2">Email</th>
-                    <th className="border p2">Role</th>
-                    {isAdmin && <th className="border p2">Action</th>}
-                </tr>
-            </thead>
-            <tbody>
+        <Table className="w-full border-collapse my-4">
+            <TableHeader>
+                <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Role</TableHead>
+                    {isAdmin && <TableHead>Action</TableHead>}
+                </TableRow>
+            </TableHeader>
+            <TableBody>
                 {users.map((user) => {
                     return (
-                        <tr key={user.id}>
-                            <td className="border p2">{user.name}</td>
-                            <td className="border p2">{user.email}</td>
-                            <td className="border p2">{user.role}</td>
+                        <TableRow key={user.id}>
+                            <TableCell>{user.name}</TableCell>
+                            <TableCell>{user.email}</TableCell>
+                            <TableCell>{user.role}</TableCell>
                             {isAdmin && (
-                                <td className="border p2">
-                                    <form action={updateUserRoleAction}>
+                                <TableCell>
+                                    <form
+                                        action={updateUserRoleAction}
+                                        className="flex flex-row"
+                                    >
                                         <input
                                             type="hidden"
                                             name="userId"
                                             value={user.id}
                                         />
-                                        <select
+                                        <Select
                                             name="newRole"
                                             defaultValue={user.role}
-                                            className="bg-white border hover:bg-slate-50 border-black p-1 rounded-md w-1/2"
                                         >
-                                            <option value={Role.USER}>
-                                                User
-                                            </option>
-                                            <option value={Role.ADMIN}>
-                                                Admin
-                                            </option>
-                                        </select>
-                                        <button
-                                            className="bg-blue-600 w-1/2 text-white p-1 hover:bg-blue-800 active:bg-blue-900 rounded-md"
-                                            type="submit"
-                                        >
-                                            Submit
-                                        </button>
+                                            <SelectTrigger>
+                                                <SelectValue></SelectValue>
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value={Role.USER}>
+                                                    User
+                                                </SelectItem>
+                                                <SelectItem value={Role.ADMIN}>
+                                                    Admin
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <Button type="submit">Submit</Button>
                                     </form>
-                                </td>
+                                </TableCell>
                             )}
-                        </tr>
+                        </TableRow>
                     );
                 })}
-            </tbody>
-        </table>
+            </TableBody>
+        </Table>
     );
 }

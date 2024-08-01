@@ -2,32 +2,35 @@
 
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 export default function Header() {
     const { data: session, status } = useSession();
 
     return (
-        <header className="bg-slate-800 text-white p-4 sticky top-0">
+        <header className="bg-primary text-primary-foreground p-4 sticky top-0">
             <div className="container mx-auto flex justify-between items-center">
                 <Link href="/" className="font-bold">
                     Dashboard
                 </Link>
                 {status === "authenticated" ? (
-                    <button
+                    <Button
+                        variant={"secondary"}
                         onClick={() => {
                             signOut({ callbackUrl: "/" });
                         }}
                     >
                         Signout
-                    </button>
+                    </Button>
                 ) : (
-                    <button
+                    <Button
+                        variant={"secondary"}
                         onClick={() => {
                             signIn("github");
                         }}
                     >
                         Sign in
-                    </button>
+                    </Button>
                 )}
             </div>
         </header>

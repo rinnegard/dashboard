@@ -24,7 +24,7 @@ export default async function DashboardPage() {
     const isAdmin = session.user.role === "ADMIN";
 
     return (
-        <div className="text-center">
+        <div className="">
             <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
             <p>Welcome to the dashboard</p>
             <UserTable users={users} isAdmin={isAdmin}></UserTable>
